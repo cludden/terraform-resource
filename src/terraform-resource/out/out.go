@@ -84,9 +84,11 @@ func (r Runner) runWithBackend(req models.OutRequest, terraformModel models.Terr
 	)
 
 	action := terraform.Action{
-		Client:  client,
-		EnvName: envName,
-		Model:   terraformModel,
+		Client:      client,
+		EnvName:     envName,
+		PlanName:    req.Params.PlanName,
+		DiscardPlan: req.Params.DiscardPlan,
+		Model:       terraformModel,
 		Logger: logger.Logger{
 			Sink: r.LogWriter,
 		},

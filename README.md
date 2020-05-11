@@ -142,6 +142,10 @@ The source file is specified with `src` and the destination directory with `dst`
 
 * `plugin_dir`: *Optional.* The path (relative to your `terraform_source`) of the directory containing plugin binaries. This overrides the default plugin directory and Terraform will not automatically fetch built-in plugins if this option is used. To preserve the automatic fetching of plugins, omit `plugin_dir` and place third-party plugins in `${terraform_source}/terraform.d/plugins`. See https://www.terraform.io/docs/configuration/providers.html#third-party-plugins for more information.
 
+* `plan_name`: *Optional.* By default, this resource stores the plan file by creating a new workspace with name `<env_name>-plan`. This field can be used to override the name of the workspace used to hold the plan file, which enables more than one plan to exist for a single workspace at any given time.
+
+* `discard_plan`: *Optional. Default `false`* This boolean will prevent the plan file from being persisted in the configured backend, useful for validation steps.
+
 #### Put Example
 
 Every `put` action creates `name` and `metadata` files as an output containing the `env_name` and [Terraform Outputs](https://www.terraform.io/intro/getting-started/outputs.html) in JSON format.

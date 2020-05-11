@@ -13,11 +13,13 @@ import (
 )
 
 type Action struct {
-	Client    Client
-	Model     models.Terraform
-	Logger    logger.Logger
-	EnvName   string
-	SourceDir string
+	Client      Client
+	Model       models.Terraform
+	Logger      logger.Logger
+	EnvName     string
+	SourceDir   string
+	PlanName    string
+	DiscardPlan bool
 }
 
 type Result struct {
@@ -220,8 +222,10 @@ func (a *Action) attemptPlan() (Result, error) {
 		return Result{}, err
 	}
 
-	if err = a.Client.SavePlanToBackend(a.planNameForEnv()); err != nil {
-		return Result{}, err
+	if !a.DiscardPlan {
+		if err = a.Client.SavePlanToBackend(a.planNameForEnv()); err != nil {
+			return Result{}, err
+		}
 	}
 
 	return Result{
@@ -343,5 +347,8 @@ func copyOverrideFilesIntoSourceDir(ModuleOverrideFiles []map[string]string) err
 }
 
 func (a *Action) planNameForEnv() string {
+	if a.PlanName != "" {
+		return a.PlanName
+	}
 	return fmt.Sprintf("%s-plan", a.EnvName)
 }

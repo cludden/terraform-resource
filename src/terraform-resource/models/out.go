@@ -15,6 +15,8 @@ type OutParams struct {
 	EnvNameFile        string `json:"env_name_file"`
 	GenerateRandomName bool   `json:"generate_random_name"`
 	Action             string `json:"action,omitempty"` // optional
+	PlanName           string `json:"plan_name,omitempty"`
+	DiscardPlan        bool   `json:"discard_plan"`
 	Terraform
 }
 
